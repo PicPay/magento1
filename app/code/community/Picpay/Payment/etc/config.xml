@@ -35,6 +35,28 @@
             </payment>
         </blocks>
     </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Picpay_Payment>
+                    <files>
+                        <default>Picpay_Payment.csv</default>
+                    </files>
+                </Picpay_Payment>
+            </modules>
+        </translate>
+        <events>
+            <sales_order_creditmemo_save_after>
+                <observers>
+                    <picpay_payment_sales_order_creditmemo_save_after>
+                        <type>model</type>
+                        <class>picpay_payment/observer</class>
+                        <method>refundTransaction</method>
+                    </picpay_payment_sales_order_creditmemo_save_after>
+                </observers>
+            </sales_order_creditmemo_save_after>
+        </events>
+    </adminhtml>
     <default>
         <payment>
             <paybras>
