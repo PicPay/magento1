@@ -1,0 +1,9 @@
+{
+    "name": "deniscsz/picpay-magento",
+    "description": "Magento extension for PicPay payments",
+    "type": "magento-module",
+    "homepage": "https://github.com/deniscsz/picpay-magento",
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
