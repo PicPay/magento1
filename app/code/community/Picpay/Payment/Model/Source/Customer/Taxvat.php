@@ -7,13 +7,14 @@ class Picpay_Payment_Model_Source_Customer_Taxvat
      */
     public function toOptionArray()
     {
-        $helper = Mage::helper('picpay');
-        $fields = $helper->getFields('customer');
+        /** @var Picpay_Payment_Helper_Data $picpayHelper */
+        $picpayHelper = Mage::helper('picpay');
+        $fields = $picpayHelper->getFields('customer');
 
         $options = array();
         $options[] = array(
             'value' => '',
-            'label' => $helper->__('Solicitar junto com os outros dados do pagamento')
+            'label' => $picpayHelper->__('Solicitar junto com os outros dados do pagamento')
         );
         foreach ($fields as $key => $value) {
             if (!is_null($value['frontend_label'])) {
@@ -24,7 +25,7 @@ class Picpay_Payment_Model_Source_Customer_Taxvat
             }
         }
 
-        $addressFields = $helper->getFields('customer_address');
+        $addressFields = $picpayHelper->getFields('customer_address');
         foreach ($addressFields as $key => $value) {
             if (!is_null($value['frontend_label'])) {
                 $options['address|'.$value['frontend_label']] = array(

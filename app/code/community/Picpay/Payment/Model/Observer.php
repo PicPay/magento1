@@ -8,7 +8,11 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
     public function refundTransaction($observer)
     {
         $creditmemo = $observer->getEvent()->getCreditmemo();
+
+        /** @var Mage_Sales_Model_Order $order */
         $order = Mage::getModel('sales/order')->load($creditmemo->getOrderId());
+        
+        /** @var Picpay_Payment_Helper_Data $helper */
         $helper = Mage::helper("picpay");
 
         if( !$order 
