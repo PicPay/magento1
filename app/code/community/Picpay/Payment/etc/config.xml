@@ -7,33 +7,39 @@
     </modules>
     <frontend>
         <routers>
-            <payment>
+            <picpay_payment>
                 <use>standard</use>
                 <args>
                     <module>Picpay_Payment</module>
                     <frontName>picpay</frontName>
                 </args>
-            </payment>
+            </picpay_payment>
         </routers>
         <layout>
             <updates>
-                <payment>
+                <picpay_payment>
                     <file>picpay.xml</file>
-                </payment>
+                </picpay_payment>
             </updates>
         </layout>
     </frontend>
     <global>
         <helpers>
-            <payment>
+            <picpay_payment>
                 <class>Picpay_Payment_Helper</class>
-            </payment>
+            </picpay_payment>
         </helpers>
         <blocks>
-            <payment>
+            <picpay_payment>
                 <class>Picpay_Payment_Block</class>
-            </payment>
+            </picpay_payment>
         </blocks>
+        <models>
+            <picpay_payment>
+                <class>Picpay_Payment_Model</class>
+                <resourceModel>picpay_payment_resource</resourceModel>
+            </picpay_payment>
+        </models>
     </global>
     <adminhtml>
         <translate>
@@ -59,15 +65,18 @@
     </adminhtml>
     <default>
         <payment>
-            <paybras>
+            <picpay>
                 <active>0</active>
-                <model>picpay/standard</model>
+                <model>Picpay_Payment_Model_Standard</model>
                 <title>Picpay</title>
-                <environment>0</environment>
+                <mode>2</mode>
                 <allowspecific>0</allowspecific>
                 <notification>1</notification>
                 <use_custom_form>0</use_custom_form>
-            </paybras>
+                <order_status>pending</order_status>
+                <customer_cpf_attribute>customer|taxvat</customer_cpf_attribute>
+                <address_telephone_attribute>telephone</address_telephone_attribute>
+            </picpay>
         </payment>
     </default>
 </config>

@@ -9,7 +9,7 @@ class Picpay_Payment_Model_Source_Customer_Address
     public function toOptionArray()
     {
         /** @var Picpay_Payment_Helper_Data $picpayHelper */
-        $picpayHelper = Mage::helper('picpay');
+        $picpayHelper = Mage::helper('picpay_payment');
         $fields = $picpayHelper->getFields('customer_address');
         $options = array();
 

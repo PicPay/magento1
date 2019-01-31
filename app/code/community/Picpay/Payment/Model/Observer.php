@@ -13,7 +13,7 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
         $order = Mage::getModel('sales/order')->load($creditmemo->getOrderId());
         
         /** @var Picpay_Payment_Helper_Data $helper */
-        $helper = Mage::helper("picpay");
+        $helper = Mage::helper("picpay_payment");
 
         if( !$order 
 			|| !$order->getId() 
