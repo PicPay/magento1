@@ -67,7 +67,7 @@
         <payment>
             <picpay>
                 <active>0</active>
-                <model>Picpay_Payment_Model_Standard</model>
+                <model>picpay_payment/standard</model>
                 <title>Picpay</title>
                 <mode>2</mode>
                 <allowspecific>0</allowspecific>
