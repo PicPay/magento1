@@ -20,7 +20,7 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function __construct()
     {
-        if ( is_null( $this->_store ) ) {
+        if(is_null($this->_store)) {
             $this->_store = Mage::app()->getStore();
         }
     }

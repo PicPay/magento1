@@ -30,9 +30,26 @@ class Picpay_Payment_Block_Info extends Mage_Payment_Block_Info
     public function getPaymentUrl()
     {
         $order = $this->getOrder();
+        if(is_null($order)) {
+            return "";
+        }
+
         /** @var Mage_Sales_Model_Order_Payment $payment */
         $payment = $order->getPayment();
 
         return $payment->getAdditionalInformation("paymentUrl");
+    }
+
+    public function getCancellationId()
+    {
+        $order = $this->getOrder();
+        if(is_null($order)) {
+            return "";
+        }
+
+        /** @var Mage_Sales_Model_Order_Payment $payment */
+        $payment = $order->getPayment();
+
+        return $payment->getAdditionalInformation("cancellationId");
     }
 }

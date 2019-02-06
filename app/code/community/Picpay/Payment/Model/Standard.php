@@ -69,8 +69,8 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
      * @param Mage_Sales_Model_Order $order
      * @return bool|mixed|string
      */
-	public function consultRequest($order)
-	{
+    public function consultRequest($order)
+    {
         //@TODO
         return false;
     }
@@ -110,9 +110,22 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
      * @param Mage_Sales_Model_Order $order
      * @return bool|mixed
      */
-	public function cancelRequest($order)
-	{
-        //@TODO
+    public function cancelRequest($order)
+    {
+        /** @var Mage_Sales_Model_Order_Payment $payment */
+        $payment = $order->getPayment();
+
+        $authorizationId = $payment->getAdditionalInformation("authorizationId");
+
+        $result = $this->_getHelper()->requestApi(
+            $this->_getHelper()->getApiUrl("/payments/{$order->getIncrementId()}/cancellations"),
+            array("authorizationId" => $authorizationId)
+        );
+
+        if(isset($result['success'])) {
+            return $result;
+        }
+
         return false;
     }
 
@@ -132,7 +145,7 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
         /** @var Mage_Sales_Model_Order $order */
         $order = $payment->getOrder();
 
-        $this->_getHelper()->log("Authorize");
+        $this->_getHelper()->log("Order Model Payment Method");
 
         $return = $this->paymentRequest($order);
 
@@ -169,7 +182,24 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
         /** @var Mage_Sales_Model_Order $order */
         $order = $payment->getOrder();
 
-        $this->cancelRequest($order);
+        $this->_getHelper()->log("Void Model Payment Method");
+
+        $return = $this->cancelRequest($order);
+
+        if(!is_array($return)) {
+            Mage::throwException($this->_getHelper()->__('Unable to process payment. Contact Us.'));
+        }
+        if($return['success'] == 0) {
+            Mage::throwException($this->_getHelper()->__($return['return']));
+        }
+
+        try {
+            $payment->setAdditionalInformation("cancellationId", $return["return"]["cancellationId"]);
+            $payment->save();
+        }
+        catch (Exception $e) {
+            Mage::logException($e);
+        }
 
         return $this;
     }
@@ -179,6 +209,7 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *
      * @param Varien_Object $payment
      * @param float $amount
+     * @throws Mage_Core_Exception
      *
      * @return Picpay_Payment_Model_Standard
      */
@@ -189,7 +220,24 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
         /** @var Mage_Sales_Model_Order $order */
         $order = $payment->getOrder();
 
-        $this->cancelRequest($order);
+        $this->_getHelper()->log("Refund Model Payment Method");
+
+        $return = $this->cancelRequest($order);
+
+        if(!is_array($return)) {
+            Mage::throwException($this->_getHelper()->__('Unable to process payment. Contact Us.'));
+        }
+        if($return['success'] == 0) {
+            Mage::throwException($this->_getHelper()->__($return['return']));
+        }
+
+        try {
+            $payment->setAdditionalInformation("cancellationId", $return["return"]["cancellationId"]);
+            $payment->save();
+        }
+        catch (Exception $e) {
+            Mage::logException($e);
+        }
 
         return $this;
     }
