@@ -1,0 +1,8 @@
+<p><?php echo $this->__("Picpay Payment") ?></p>
+<?php if($this->getPaymentUrl()): ?>
+    <a href="<?php echo $this->getPaymentUrl(); ?>"><?php echo $this->__("Payment Link") ?></a>
+<?php endif; ?>
+<?php if($this->getCancellationId()): ?>
+    <p>Cancellation Id: <?php echo $this->getCancellationId() ?></p>
+<?php endif; ?>
+

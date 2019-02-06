@@ -40,6 +40,28 @@
                 <resourceModel>picpay_payment_resource</resourceModel>
             </picpay_payment>
         </models>
+
+        <events>
+            <sales_order_creditmemo_save_after>
+                <observers>
+                    <picpay_payment_sales_order_creditmemo_save_after>
+                        <type>model</type>
+                        <class>picpay_payment/observer</class>
+                        <method>refundTransaction</method>
+                    </picpay_payment_sales_order_creditmemo_save_after>
+                </observers>
+            </sales_order_creditmemo_save_after>
+
+            <order_cancel_after>
+                <observers>
+                    <picpay_payment_order_cancel_after>
+                        <type>model</type>
+                        <class>picpay_payment/observer</class>
+                        <method>cancelTransaction</method>
+                    </picpay_payment_order_cancel_after>
+                </observers>
+            </order_cancel_after>
+        </events>
     </global>
     <adminhtml>
         <translate>
@@ -52,15 +74,15 @@
             </modules>
         </translate>
         <events>
-            <sales_order_creditmemo_save_after>
+            <core_block_abstract_prepare_layout_before>
                 <observers>
-                    <picpay_payment_sales_order_creditmemo_save_after>
+                    <picpay_payment_core_block_abstract_prepare_layout_before>
                         <type>model</type>
                         <class>picpay_payment/observer</class>
-                        <method>refundTransaction</method>
-                    </picpay_payment_sales_order_creditmemo_save_after>
+                        <method>addOrderButtonsAction</method>
+                    </picpay_payment_core_block_abstract_prepare_layout_before>
                 </observers>
-            </sales_order_creditmemo_save_after>
+            </core_block_abstract_prepare_layout_before>
         </events>
     </adminhtml>
     <default>

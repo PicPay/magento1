@@ -6,7 +6,7 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     const REDIRECT_MODE = 3;
 
     const XML_PATH_SYSTEM_CONFIG    = "payment/picpay_standard";
-    const SUCCESS_PATH_URL          = "checkout/success";
+    const SUCCESS_PATH_URL          = "checkout/onepage/success";
     const SUCCESS_IFRAME_PATH_URL   = "picpay/standard/success";
 
     /**
@@ -131,7 +131,9 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getReturnUrl()
     {
-        $webUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+        $isSecure = Mage::app()->getStore()->isCurrentlySecure();
+        $webUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB, array("_secure" => $isSecure));
+
         if($this->isIframeMode()) {
             return $webUrl . self::SUCCESS_IFRAME_PATH_URL;
         }
@@ -143,7 +145,8 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCallbackUrl()
     {
-        return Mage::getUrl('picpay/notification');
+        $isSecure = Mage::app()->getStore()->isCurrentlySecure();
+        return Mage::getUrl('picpay/notification', array("_secure" => $isSecure));
     }
 
     /**
@@ -341,5 +344,17 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $cpf;
+    }
+
+    /**
+     * Update Order by Status on PicPay api
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return boolean
+     */
+    public function updateOrder($order)
+    {
+
+        return false;
     }
 }
