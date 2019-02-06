@@ -16,7 +16,7 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
     protected $_canUseForMultishipping = true;
     protected $_canUseCheckout = true;
 
-    protected $_canCapture = true;
+    protected $_canCapture = false;
     protected $_canRefund = true;
     protected $_canRefundInvoicePartial = false;
     protected $_canVoid = true;
@@ -155,20 +155,21 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Capture payment picpay_standard method
+     * Void payment picpay_standard method
      *
      * @param Varien_Object $payment
-     * @param float $amount
+     * @throws Mage_Core_Exception
      *
      * @return Picpay_Payment_Model_Standard
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function void(Varien_Object $payment)
     {
-        parent::capture($payment, $amount);
+        parent::void($payment);
 
         /** @var Mage_Sales_Model_Order $order */
         $order = $payment->getOrder();
-        $amount = $order->getGrandTotal();
+
+        $this->cancelRequest($order);
 
         return $this;
     }
@@ -183,9 +184,12 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function refund(Varien_Object $payment, $amount)
     {
+        parent::refund($payment, $amount);
+
         /** @var Mage_Sales_Model_Order $order */
         $order = $payment->getOrder();
-        $amount = $order->getGrandTotal();
+
+        $this->cancelRequest($order);
 
         return $this;
     }

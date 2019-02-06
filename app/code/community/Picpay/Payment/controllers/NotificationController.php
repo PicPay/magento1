@@ -119,6 +119,54 @@ class Picpay_Payment_NotificationController extends Mage_Core_Controller_Front_A
         $request = $this->_normalizeParams($this->getRequest());
 
         $referenceId = $request->get("referenceId");
-        $referenceId = $request->get("authorizationId");
+        $authorizationId = $request->get("authorizationId");
+
+        if(!$referenceId || !$authorizationId) {
+            $this->getResponse()->setHeader('HTTP/1.1', '422 Unprocessable Entity');
+            return;
+        }
+
+        $order = Mage::getModel('sales/order')->loadByIncrementId($referenceId);
+
+        if(!$order || !$order->getId()) {
+            $this->getResponse()->setHeader('HTTP/1.1', '422 Unprocessable Entity');
+            return;
+        }
+
+        $payment = $order->getPayment();
+
+        try {
+            $invoice = Mage::getModel('sales/service_order', $order)
+                ->prepareInvoice();
+
+            if (!$invoice->getTotalQty()) {
+                Mage::throwException($this->getHelper()->__("Cannot create an invoice without products."));
+            }
+
+            $payment->setAdditionalInformation("authorizationId", $authorizationId);
+            $payment->save();
+
+            $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
+            $invoice->register();
+
+            $invoice->getOrder()->setCustomerNoteNotify(false);
+            $invoice->getOrder()->setIsInProcess(true);
+
+            $order->addStatusHistoryComment($this->getHelper()->__("Order invoiced by API notification. Authorization Id: ".$authorizationId), false);
+
+            $invoice->pay();
+            $invoice->sendEmail(true);
+
+            $transactionSave = Mage::getModel('core/resource_transaction')
+                ->addObject($invoice)
+                ->addObject($order);
+
+            $transactionSave->save();
+            $order->save();
+        } catch (Exception $e) {
+            Mage::logException($e);
+            $this->getResponse()->setHeader('HTTP/1.1', '422 Unprocessable Entity');
+            return;
+        }
     }
 }

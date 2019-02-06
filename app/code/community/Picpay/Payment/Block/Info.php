@@ -24,18 +24,15 @@ class Picpay_Payment_Block_Info extends Mage_Payment_Block_Info
                 }
             }
         }
-		return $order;
+		return $this->_order;
     }
 
-    /**
-     * Prepara info payment data to show
-     */
-    protected function _prepareInfo()
+    public function getPaymentUrl()
     {
         $order = $this->getOrder();
-        if($order) {
-            $data = $this->getInfo()->getAdditionalData();
-            $data = unserialize($data);
-        }
+        /** @var Mage_Sales_Model_Order_Payment $payment */
+        $payment = $order->getPayment();
+
+        return $payment->getAdditionalInformation("paymentUrl");
     }
 }

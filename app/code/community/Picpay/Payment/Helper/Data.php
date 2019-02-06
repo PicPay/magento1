@@ -150,6 +150,7 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      * Validate a HTTP Request Authorization
      *
      * @param Zend_Controller_Request_Http $request
+     * @throws Zend_Controller_Request_Exception
      * @return bool
      */
     public function validateAuth(Zend_Controller_Request_Http $request)

@@ -1,1 +1,4 @@
-<p>Info aqui</p>
+<p><?php echo $this->__("Picpay Payment") ?></p>
+<?php if($this->getPaymentUrl()): ?>
+    <a href="<?php echo $this->getPaymentUrl(); ?>"><?php echo $this->__("Payment Link") ?></a>
+<?php endif; ?>
