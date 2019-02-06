@@ -12,8 +12,12 @@ class Picpay_Payment_StandardController extends Mage_Core_Controller_Front_Actio
         }
     }
 
-    public function redirectAction()
+    /**
+     * Success action to show inside iframe on return url Picpay
+     */
+    public function successAction()
     {
-        
+        $this->loadLayout();
+        $this->renderLayout();
     }
 }

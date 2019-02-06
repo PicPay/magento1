@@ -65,7 +65,7 @@
     </adminhtml>
     <default>
         <payment>
-            <picpay>
+            <picpay_standard>
                 <active>0</active>
                 <model>picpay_payment/standard</model>
                 <title>Picpay</title>
@@ -76,7 +76,8 @@
                 <order_status>pending</order_status>
                 <customer_cpf_attribute>customer|taxvat</customer_cpf_attribute>
                 <address_telephone_attribute>telephone</address_telephone_attribute>
-            </picpay>
+                <api_url>https://appws.picpay.com/ecommerce/public</api_url>
+            </picpay_standard>
         </payment>
     </default>
 </config>
