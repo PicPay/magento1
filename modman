@@ -10,13 +10,4 @@ app/locale/pt_BR/Picpay_Payment.csv            app/locale/pt_BR/Picpay_Payment.c
 app/design/frontend/base/default/layout/picpay.xml            app/design/frontend/base/default/layout/picpay.xml
 app/design/frontend/base/default/template/picpay/form/picpay.phtml            app/design/frontend/base/default/template/picpay/form/picpay.phtml
 app/design/frontend/base/default/template/picpay/info.phtml            app/design/frontend/base/default/template/picpay/info.phtml
-# lib
-lib/Picpay/Buyer.php            lib/Picpay/Buyer.php
-lib/Picpay/Seller.php            lib/Picpay/Seller.php
-lib/Picpay/Payment.php            lib/Picpay/Payment.php
-lib/Picpay/Request/BaseRequest.php            lib/Picpay/Request/BaseRequest.php
-lib/Picpay/Request/NotificationRemoteRequest.php            lib/Picpay/Request/NotificationRemoteRequest.php
-lib/Picpay/Request/CancelRequest.php            lib/Picpay/Request/CancelRequest.php
-lib/Picpay/Request/StatusRequest.php            lib/Picpay/Request/StatusRequest.php
-lib/Picpay/Request/PaymentRequest.php            lib/Picpay/Request/PaymentRequest.php
-lib/Picpay/Exception/RequestException.php            lib/Picpay/Exception/RequestException.php
+app/design/adminhtml/default/default/template/picpay/info.phtml            app/design/adminhtml/default/default/template/picpay/info.phtml
