@@ -104,13 +104,9 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function consultRequest($order)
     {
-        $data = array(
-            'referenceId'   => $order->getIncrementId()
-        );
-
         $result = $this->_getHelper()->requestApi(
             $this->_getHelper()->getApiUrl("/payments/{$order->getIncrementId()}/status"),
-            $data,
+            array(),
             "GET"
         );
 
