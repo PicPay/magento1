@@ -57,6 +57,7 @@ class Picpay_Payment_NotificationController extends Mage_Core_Controller_Front_A
 
         // Check HTTP method
         if(!$this->getRequest()->isPost()) {
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return $this->toJson(array('message' => 'Invalid HTTP Method'), 400);
         }
 
