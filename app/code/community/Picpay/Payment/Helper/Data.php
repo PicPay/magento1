@@ -407,6 +407,16 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _processRefundOrder($order)
     {
+        if($order->canUnhold()) {
+            $order->unhold()->save();
+        }
+
+        if($order->canCancel()) {
+            $order->cancel();
+            return;
+        }
+
+        // not can cancel, need do a creditmemo
         $service = Mage::getModel('sales/service_order', $order);
 
         $invoices = array();
