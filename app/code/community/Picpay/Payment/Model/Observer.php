@@ -159,7 +159,7 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
                 $template = $helper::PHTML_SUCCESS_PATH_ONPAGE;
             }
 
-            $picpayBlock = $this->getLayout()->createBlock(
+            $picpayBlock = Mage::app()->getLayout()->createBlock(
                 'Mage_Core_Block_Template',
                 'picpay.qrcode.success',
                 array('template' => $template)
