@@ -378,11 +378,100 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      * Update Order by Status on PicPay api
      *
      * @param Mage_Sales_Model_Order $order
-     * @return boolean
+     * @param array $consult
+     * @param string $authorizationId
+     * @throws Mage_Core_Exception
      */
-    public function updateOrder($order)
+    public function updateOrder($order, $consult, $authorizationId)
     {
+        $status = $consult["return"]["status"];
+        switch ($status) {
+            case "expired":
+            case "refunded":
+            case "chargeback":
+                $this->_processRefundOrder($order, $authorizationId);
+                break;
+            case "paid":
+            case "completed":
+                $this->_processPaidOrder($order, $authorizationId);
+            default: //created, analysis - don't change status order
+                break;
+        }
+    }
 
-        return false;
+    /**
+     * Process Refund Order by Status on Picpay
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @throws Mage_Core_Exception
+     */
+    protected function _processRefundOrder($order)
+    {
+        $service = Mage::getModel('sales/service_order', $order);
+
+        $invoices = array();
+        foreach ($order->getInvoiceCollection() as $invoice) {
+            if ($invoice->canRefund()) {
+                $invoices[] = $invoice;
+            }
+        }
+
+        if(empty($invoices)) {
+            Mage::throwException($this->__("There isn't invoice to refund on order " . $order->getIncrementId()));
+        }
+
+        foreach ($invoices as $invoice) {
+            $creditmemo = $service->prepareInvoiceCreditmemo($invoice)->register()->save();
+
+            Mage::getModel('core/resource_transaction')
+                ->addObject($creditmemo)
+                ->addObject($creditmemo->getOrder())
+                ->addObject($creditmemo->getInvoice())
+                ->save();
+        }
+    }
+
+    /**
+     * Process Paid Order by Status on Picpay
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @param string $authorizationId
+     * @throws Mage_Core_Exception
+     */
+    protected function _processPaidOrder($order, $authorizationId)
+    {
+        if($order->getBaseTotalDue() <= 0) {
+            return;
+        }
+
+        $payment = $order->getPayment();
+        $payment->setAdditionalInformation("authorizationId", $authorizationId);
+        $payment->save();
+
+        $invoice = Mage::getModel('sales/service_order', $order)
+            ->prepareInvoice();
+
+        if (!$invoice->getTotalQty()) {
+            Mage::throwException($this->getHelper()->__("Cannot create an invoice without products."));
+        }
+
+        $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
+        $invoice->register();
+
+        $invoice->getOrder()->setCustomerNoteNotify(false);
+        $invoice->getOrder()->setIsInProcess(true);
+
+        $order->addStatusHistoryComment($this->getHelper()->__("Order invoiced by API notification. Authorization Id: ".$authorizationId), false);
+
+        $invoice->pay();
+        $invoice->sendEmail(true);
+
+        $transactionSave = Mage::getModel('core/resource_transaction')
+            ->addObject($invoice)
+            ->addObject($order);
+
+        $transactionSave->save();
+
+        $order->save();
     }
 }

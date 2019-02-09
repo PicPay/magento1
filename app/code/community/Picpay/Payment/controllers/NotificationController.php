@@ -121,7 +121,7 @@ class Picpay_Payment_NotificationController extends Mage_Core_Controller_Front_A
         $referenceId = $request->get("referenceId");
         $authorizationId = $request->get("authorizationId");
 
-        if(!$referenceId || !$authorizationId) {
+        if(!$referenceId) {
             $this->getResponse()->setHeader('HTTP/1.1', '422 Unprocessable Entity');
             return;
         }
@@ -134,37 +134,18 @@ class Picpay_Payment_NotificationController extends Mage_Core_Controller_Front_A
             return;
         }
 
-        /** @var Mage_Sales_Model_Order_Payment $payment */
-        $payment = $order->getPayment();
+        /** @var Picpay_Payment_Helper_Data $picpayHelper */
+        $picpayHelper = Mage::helper("picpay_payment");
 
         try {
-            $payment->setAdditionalInformation("authorizationId", $authorizationId);
-            $payment->save();
-
-            $invoice = Mage::getModel('sales/service_order', $order)
-                ->prepareInvoice();
-
-            if (!$invoice->getTotalQty()) {
-                Mage::throwException($this->getHelper()->__("Cannot create an invoice without products."));
+            $return = $order->getPayment()->getMethodInstance()->consultRequest($order);
+            if(isset($return["return"]["status"])) {
+                $picpayHelper->updateOrder($order, $return, $authorizationId);
             }
-
-            $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
-            $invoice->register();
-
-            $invoice->getOrder()->setCustomerNoteNotify(false);
-            $invoice->getOrder()->setIsInProcess(true);
-
-            $order->addStatusHistoryComment($this->getHelper()->__("Order invoiced by API notification. Authorization Id: ".$authorizationId), false);
-
-            $invoice->pay();
-            $invoice->sendEmail(true);
-
-            $transactionSave = Mage::getModel('core/resource_transaction')
-                ->addObject($invoice)
-                ->addObject($order);
-
-            $transactionSave->save();
-            $order->save();
+            else {
+                $this->getResponse()->setHeader('HTTP/1.1', '400 Bad Request');
+                return;
+            }
         } catch (Exception $e) {
             Mage::logException($e);
             $this->getResponse()->setHeader('HTTP/1.1', '422 Unprocessable Entity');
