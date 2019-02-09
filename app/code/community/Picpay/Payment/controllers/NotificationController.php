@@ -126,6 +126,7 @@ class Picpay_Payment_NotificationController extends Mage_Core_Controller_Front_A
             return;
         }
 
+        /** @var Mage_Sales_Model_Order $order */
         $order = Mage::getModel('sales/order')->loadByIncrementId($referenceId);
 
         if(!$order || !$order->getId()) {
@@ -133,18 +134,19 @@ class Picpay_Payment_NotificationController extends Mage_Core_Controller_Front_A
             return;
         }
 
+        /** @var Mage_Sales_Model_Order_Payment $payment */
         $payment = $order->getPayment();
 
         try {
+            $payment->setAdditionalInformation("authorizationId", $authorizationId);
+            $payment->save();
+
             $invoice = Mage::getModel('sales/service_order', $order)
                 ->prepareInvoice();
 
             if (!$invoice->getTotalQty()) {
                 Mage::throwException($this->getHelper()->__("Cannot create an invoice without products."));
             }
-
-            $payment->setAdditionalInformation("authorizationId", $authorizationId);
-            $payment->save();
 
             $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
             $invoice->register();

@@ -7,19 +7,12 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
     protected $_infoBlockType = 'picpay_payment/info';
 
     protected $_canOrder = true;
-
     protected $_isInitializeNeeded = false;
-    protected $_isGateway  = false;
-    protected $_canAuthorize = false;
 
     protected $_canUseInternal = true;
     protected $_canUseForMultishipping = true;
     protected $_canUseCheckout = true;
-
-    protected $_canCapture = false;
-    protected $_canRefund = true;
     protected $_canRefundInvoicePartial = false;
-    protected $_canVoid = true;
 
     /** @var Picpay_Payment_Helper_Data $_helperPicpay */
     protected $_helperPicpay = null;
@@ -44,6 +37,19 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * Check if order total is zero making method unavailable
+     * @param Mage_Sales_Model_Quote $quote
+     * @throws Mage_Core_Exception
+     *
+     * @return mixed
+     */
+    public function isAvailable($quote = null)
+    {
+        return parent::isAvailable($quote) && !empty($quote)
+            && Mage::app()->getStore()->roundPrice($quote->getGrandTotal()) > 0;
+    }
+
+    /**
      * Assign data to info model instance
      *
      * @param   mixed $data
@@ -55,6 +61,10 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
         if (!($data instanceof Varien_Object)) {
             $data = new Varien_Object($data);
         }
+        if ($data instanceof Varien_Object) {
+            $this->getInfoInstance()->addData($data->getData());
+        }
+
         $info = $this->getInfoInstance();
         
         $info->setAdditionalInformation('return_url', $this->_getHelper()->getReturnUrl());
@@ -180,6 +190,8 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function order(Varien_Object $payment, $amount)
     {
+        $payment->setSkipOrderProcessing(true);
+
         parent::order($payment, $amount);
 
         /** @var Mage_Sales_Model_Order $order */
