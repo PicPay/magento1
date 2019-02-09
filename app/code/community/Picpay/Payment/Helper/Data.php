@@ -9,6 +9,9 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     const SUCCESS_PATH_URL          = "checkout/onepage/success";
     const SUCCESS_IFRAME_PATH_URL   = "picpay/standard/success";
 
+    const PHTML_SUCCESS_PATH_ONPAGE = "picpay/success.qrcode.phtml";
+    const PHTML_SUCCESS_PATH_IFRAME = "picpay/success.iframe.phtml";
+
     /**
      * Store
      * @var bool|Mage_Core_Model_Store
@@ -34,6 +37,16 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     public function getStoreConfig($path)
     {
         return Mage::getStoreConfig( self::XML_PATH_SYSTEM_CONFIG . '/' . $path, $this->_store );
+    }
+
+    /**
+     * Check if picpay payment is enabled
+     *
+     * @return string
+     */
+    public function isActive()
+    {
+        return $this->getStoreConfig("active");
     }
 
     /**
@@ -147,6 +160,21 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $isSecure = Mage::app()->getStore()->isCurrentlySecure();
         return Mage::getUrl('picpay/notification', array("_secure" => $isSecure));
+    }
+
+    /**
+     * Get iframe style on iframe mode
+     */
+    public function getIframeStyle()
+    {
+        $width = $this->getStoreConfig("iframe_width");
+        $height = $this->getStoreConfig("iframe_height");
+
+        $style = "";
+        $style .= "margin: 20px auto;";
+        $style .= "width: {$width}px;";
+        $style .= "height: {$height}px;";
+        return $style;
     }
 
     /**

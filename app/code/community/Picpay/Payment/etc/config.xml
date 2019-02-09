@@ -63,6 +63,19 @@
             </order_cancel_after>
         </events>
     </global>
+    <frontend>
+        <events>
+            <core_block_abstract_prepare_layout_before>
+                <observers>
+                    <picpay_payment_core_block_abstract_prepare_layout_before>
+                        <type>model</type>
+                        <class>picpay_payment/observer</class>
+                        <method>addPicpayQrcodeBlock</method>
+                    </picpay_payment_core_block_abstract_prepare_layout_before>
+                </observers>
+            </core_block_abstract_prepare_layout_before>
+        </events>
+    </frontend>
     <adminhtml>
         <translate>
             <modules>
@@ -99,6 +112,8 @@
                 <customer_cpf_attribute>customer|taxvat</customer_cpf_attribute>
                 <address_telephone_attribute>telephone</address_telephone_attribute>
                 <api_url>https://appws.picpay.com/ecommerce/public</api_url>
+                <iframe_width>400</iframe_width>
+                <iframe_height>500</iframe_height>
             </picpay_standard>
         </payment>
     </default>

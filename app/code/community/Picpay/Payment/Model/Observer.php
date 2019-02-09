@@ -2,6 +2,14 @@
 
 class Picpay_Payment_Model_Observer extends Varien_Event_Observer
 {
+    /**
+     * Cancel payment transaction in PicPay api
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @param Picpay_Payment_Helper_Data $helper
+     * @throws Mage_Core_Exception
+     * @return $this
+     */
     protected function _cancelOrder($order, $helper)
     {
         $payment = $order->getPayment();
@@ -33,14 +41,22 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
 
     /**
      * Cancel transacion via API PicPay by cancel order save event
+     *
+     * @param $observer
+     * @throws Mage_Core_Exception
+     * @return Picpay_Payment_Model_Observer
      */
     public function cancelTransaction($observer)
     {
-        /** @var Mage_Sales_Model_Order $order */
-        $order = $observer->getEvent()->getOrder();
-
         /** @var Picpay_Payment_Helper_Data $helper */
         $helper = Mage::helper("picpay_payment");
+
+        if(!$helper->isModuleEnabled()) {
+            return $this;
+        }
+
+        /** @var Mage_Sales_Model_Order $order */
+        $order = $observer->getEvent()->getOrder();
 
         if(!$order
             || !$order->getId()
@@ -54,16 +70,24 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
 
     /**
      * Refund transacion via API PicPay by creditmemo save event
+     *
+     * @param $observer
+     * @throws Mage_Core_Exception
+     * @return Picpay_Payment_Model_Observer
      */
     public function refundTransaction($observer)
     {
+        /** @var Picpay_Payment_Helper_Data $helper */
+        $helper = Mage::helper("picpay_payment");
+
+        if(!$helper->isModuleEnabled()) {
+            return $this;
+        }
+
         $creditmemo = $observer->getEvent()->getCreditmemo();
 
         /** @var Mage_Sales_Model_Order $order */
         $order = Mage::getModel('sales/order')->load($creditmemo->getOrderId());
-        
-        /** @var Picpay_Payment_Helper_Data $helper */
-        $helper = Mage::helper("picpay_payment");
 
         if(!$order
             || !$order->getId()
@@ -79,9 +103,17 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
      * Add button to actions on Order View
      *
      * @param $observer
+     * @return Picpay_Payment_Model_Observer
      */
     public function addOrderButtonsAction($observer)
     {
+        /** @var Picpay_Payment_Helper_Data $helper */
+        $helper = Mage::helper("picpay_payment");
+
+        if(!$helper->isModuleEnabled()) {
+            return $this;
+        }
+
         $block = $observer->getEvent()->getBlock();
         if ($block instanceof Mage_Adminhtml_Block_Sales_Order_View) {
             $message = Mage::helper('picpay_payment')->__('Are you sure you want to Sync Picpay Transaction?');
@@ -97,6 +129,42 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
                     )
                 );
             }
+        }
+    }
+
+    /**
+     * Add qrcode block when mode is appropriate
+     *
+     * @param $observer
+     * @return Picpay_Payment_Model_Observer
+     */
+    public function addPicpayQrcodeBlock($observer)
+    {
+        /** @var Picpay_Payment_Helper_Data $helper */
+        $helper = Mage::helper("picpay_payment");
+
+        if(!$helper->isModuleEnabled()
+            || !$helper->isActive()
+            || $helper->isRedirectMode()
+        ) {
+            return $this;
+        }
+
+        /** @var $_block Mage_Core_Block_Abstract */
+        $_block = $observer->getBlock();
+
+        if ($_block->getType() == 'core/text_list' && $_block->getNameInLayout() == "content") {
+            $template = $helper::PHTML_SUCCESS_PATH_IFRAME;
+            if($helper->isOnpageMode()) {
+                $template = $helper::PHTML_SUCCESS_PATH_ONPAGE;
+            }
+
+            $picpayBlock = $this->getLayout()->createBlock(
+                'Mage_Core_Block_Template',
+                'picpay.qrcode.success',
+                array('template' => $template)
+            );
+            $_block->append($picpayBlock);
         }
     }
 }

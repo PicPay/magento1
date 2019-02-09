@@ -40,6 +40,30 @@
                             <show_in_store>1</show_in_store>
                         </mode>
 
+                        <iframe_width translate="label">
+                            <label>Iframe Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>34</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <mode>2</mode>
+                            </depends>
+                        </iframe_width>
+
+                        <iframe_height translate="label">
+                            <label>Iframe Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <mode>2</mode>
+                            </depends>
+                        </iframe_height>
+
                         <token translate="label">
                             <label>API Picpay Token</label>
                             <frontend_type>text</frontend_type>
