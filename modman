@@ -8,6 +8,8 @@ app/locale/en_US/Picpay_Payment.csv            app/locale/en_US/Picpay_Payment.c
 app/locale/pt_BR/Picpay_Payment.csv            app/locale/pt_BR/Picpay_Payment.csv
 # app/design
 app/design/frontend/base/default/layout/picpay.xml            app/design/frontend/base/default/layout/picpay.xml
+app/design/frontend/base/default/template/picpay/success.qrcode.phtml            app/design/frontend/base/default/template/picpay/success.qrcode.phtml
+app/design/frontend/base/default/template/picpay/success.iframe.phtml            app/design/frontend/base/default/template/picpay/success.iframe.phtml
 app/design/frontend/base/default/template/picpay/form/picpay.phtml            app/design/frontend/base/default/template/picpay/form/picpay.phtml
 app/design/frontend/base/default/template/picpay/info.phtml            app/design/frontend/base/default/template/picpay/info.phtml
 app/design/adminhtml/default/default/template/picpay/info.phtml            app/design/adminhtml/default/default/template/picpay/info.phtml

@@ -17,6 +17,7 @@ class Picpay_Payment_NotificationController extends Mage_Core_Controller_Front_A
      *
      * @param array $data Data to be json encoded
      * @param int $statusCode HTTP response status code
+     * @throws Zend_Controller_Exception
      * @return Zend_Controller_Response_Abstract
      */
     protected function _toJson($data = array(), $statusCode = 200)
