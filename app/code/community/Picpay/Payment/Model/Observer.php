@@ -152,8 +152,14 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
 
         /** @var $_block Mage_Core_Block_Abstract */
         $_block = $observer->getBlock();
+        $session = Mage::getSingleton('checkout/session');
 
-        if ($_block->getType() == 'core/text_list' && $_block->getNameInLayout() == "content") {
+
+        if ($_block->getType() == 'core/text_list'
+            && $_block->getNameInLayout() == "content"
+            && $session->getLastOrderId() &&
+            !$session->getQuoteId()
+        ) {
             $template = $helper::PHTML_SUCCESS_PATH_IFRAME;
             if($helper->isOnpageMode()) {
                 $template = $helper::PHTML_SUCCESS_PATH_ONPAGE;
