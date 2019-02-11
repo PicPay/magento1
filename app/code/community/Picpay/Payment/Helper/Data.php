@@ -482,6 +482,12 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
 
         $transactionSave->save();
 
+        /** @var Mage_Sales_Model_Order_Status $status */
+        $status = Mage::getModel('sales/order_status')->loadDefaultByState("processing");
+        if($status) {
+            $order->setStatus($status->getStatus());
+        }
+
         $order->save();
     }
 }
