@@ -462,7 +462,7 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
             ->prepareInvoice();
 
         if (!$invoice->getTotalQty()) {
-            Mage::throwException($this->getHelper()->__("Cannot create an invoice without products."));
+            Mage::throwException($this->__("Cannot create an invoice without products."));
         }
 
         $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
@@ -471,7 +471,7 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         $invoice->getOrder()->setCustomerNoteNotify(false);
         $invoice->getOrder()->setIsInProcess(true);
 
-        $order->addStatusHistoryComment($this->getHelper()->__("Order invoiced by API notification. Authorization Id: ".$authorizationId), false);
+        $order->addStatusHistoryComment($this->__("Order invoiced by API notification. Authorization Id: ".$authorizationId), false);
 
         $invoice->pay();
         $invoice->sendEmail(true);
