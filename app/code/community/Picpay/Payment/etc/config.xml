@@ -61,6 +61,16 @@
                     </picpay_payment_order_cancel_after>
                 </observers>
             </order_cancel_after>
+
+            <controller_front_init_before>
+                <observers>
+                    <picpay_payment_controller_front_init_before>
+                        <type>singleton</type>
+                        <class>picpay_payment/observer</class>
+                        <method>controllerFrontInitBefore</method>
+                    </picpay_payment_controller_front_init_before>
+                </observers>
+            </controller_front_init_before>
         </events>
     </global>
     <frontend>

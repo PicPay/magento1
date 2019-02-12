@@ -3,6 +3,19 @@
 class Picpay_Payment_Model_Observer extends Varien_Event_Observer
 {
     /**
+     * This is an observer function for the event 'controller_front_init_before'.
+     * It prepends our autoloader, so we can load the extra libraries.
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function controllerFrontInitBefore(/** @noinspection PhpUnusedParameterInspection */ $observer)
+    {
+        /** @var JeroenVermeulen_Solarium_Helper_Autoloader $autoLoader */
+        $autoLoader = Mage::helper('picpay_payment/autoloader');
+        $autoLoader->register();
+    }
+
+    /**
      * Cancel payment transaction in PicPay api
      *
      * @param Mage_Sales_Model_Order $order
@@ -153,19 +166,20 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
         /** @var $_block Mage_Core_Block_Abstract */
         $_block = $observer->getBlock();
         $session = Mage::getSingleton('checkout/session');
-
+        /** @var Mage_Core_Model_Layout $layout */
+        $layout = Mage::app()->getLayout();
+        $handles = $layout->getUpdate()->getHandles();
 
         if ($_block->getType() == 'core/text_list'
             && $_block->getNameInLayout() == "content"
-            && $session->getLastOrderId() &&
-            !$session->getQuoteId()
+            && $session->getLastOrderId()
         ) {
             $template = $helper::PHTML_SUCCESS_PATH_IFRAME;
             if($helper->isOnpageMode()) {
                 $template = $helper::PHTML_SUCCESS_PATH_ONPAGE;
             }
 
-            $picpayBlock = Mage::app()->getLayout()->createBlock(
+            $picpayBlock = $layout->createBlock(
                 'Mage_Core_Block_Template',
                 'picpay.qrcode.success',
                 array('template' => $template)
