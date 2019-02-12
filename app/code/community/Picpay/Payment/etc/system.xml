@@ -64,10 +64,22 @@
                             </depends>
                         </onpage_width>
 
+                        <onpage_message translate="label">
+                            <label>Message to show with qrcode on success page</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>36</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <mode>1</mode>
+                            </depends>
+                        </onpage_message>
+
                         <qrcode_info_width translate="label">
                             <label>Qrcode width on info payments</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>36</sort_order>
+                            <sort_order>38</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>

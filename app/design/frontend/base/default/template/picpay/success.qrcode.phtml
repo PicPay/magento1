@@ -14,6 +14,11 @@ $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
     <?php if($paymentUrl = $payment->getAdditionalInformation("paymentUrl")): ?>
         <?php $onpageWidth = $picpayHelper->getQrcodeOnpageWidth(); ?>
         <?php $imageSize = $onpageWidth ? $onpageWidth : $picpayHelper::DEFAULT_QRCODE_WIDTH ; ?>
-        <?php echo $picpayHelper->generateQrCode($paymentUrl, $imageSize); ?>
+        <p>
+            <?php echo $picpayHelper->generateQrCode($paymentUrl, $imageSize); ?>
+        </p>
+        <p>
+            <?php echo $picpayHelper->getMessageOnpageSuccess(); ?>
+        </p>
     <?php endif; ?>
 <?php endif; ?>

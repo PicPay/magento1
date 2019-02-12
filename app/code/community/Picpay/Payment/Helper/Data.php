@@ -190,6 +190,16 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get message to show on success page
+     *
+     * @return string
+     */
+    public function getMessageOnpageSuccess()
+    {
+        return $this->getStoreConfig("onpage_message");
+    }
+
+    /**
      * Get fields from a given entity
      *
      * @author Gabriela D'Ávila (http://davila.blog.br)

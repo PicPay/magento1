@@ -75,7 +75,7 @@
     </global>
     <frontend>
         <events>
-            <core_block_abstract_prepare_layout_before>
+            <core_block_abstract_to_html_before>
                 <observers>
                     <picpay_payment_core_block_abstract_prepare_layout_before>
                         <type>model</type>
@@ -83,7 +83,7 @@
                         <method>addPicpayQrcodeBlock</method>
                     </picpay_payment_core_block_abstract_prepare_layout_before>
                 </observers>
-            </core_block_abstract_prepare_layout_before>
+            </core_block_abstract_to_html_before>
         </events>
     </frontend>
     <adminhtml>

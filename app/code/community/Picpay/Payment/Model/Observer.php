@@ -173,6 +173,10 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
         if ($_block->getType() == 'core/text_list'
             && $_block->getNameInLayout() == "content"
             && $session->getLastOrderId()
+            && (
+                in_array("checkout_onepage_success", $handles) == true ||
+                in_array("checkout_multishipping_success", $handles) == true
+            )
         ) {
             $template = $helper::PHTML_SUCCESS_PATH_IFRAME;
             if($helper->isOnpageMode()) {
