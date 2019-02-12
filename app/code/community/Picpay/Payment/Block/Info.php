@@ -52,4 +52,32 @@ class Picpay_Payment_Block_Info extends Mage_Payment_Block_Info
 
         return $payment->getAdditionalInformation("cancellationId");
     }
+
+    public function getAuthorizationId()
+    {
+        $order = $this->getOrder();
+        if(is_null($order)) {
+            return "";
+        }
+
+        /** @var Mage_Sales_Model_Order_Payment $payment */
+        $payment = $order->getPayment();
+
+        return $payment->getAdditionalInformation("authorizationId");
+    }
+
+    public function getQrcode()
+    {
+        if($paymentUrl = $this->getPaymentUrl()) {
+            /** @var Picpay_Payment_Helper_Data $picpayHelper */
+            $picpayHelper = Mage::helper("picpay_payment");
+
+            $imageSize = $picpayHelper->getQrcodeInfoWidth()
+                ? $picpayHelper->getQrcodeInfoWidth()
+                : $picpayHelper::DEFAULT_QRCODE_WIDTH
+            ;
+
+            return $picpayHelper->generateQrCode($paymentUrl, $imageSize);
+        }
+    }
 }

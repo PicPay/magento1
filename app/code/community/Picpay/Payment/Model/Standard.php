@@ -17,7 +17,6 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /** @var Picpay_Payment_Helper_Data $_helperPicpay */
     protected $_helperPicpay = null;
 
-
     public function getConfigPaymentAction()
     {
         return Mage_Payment_Model_Method_Abstract::ACTION_ORDER;

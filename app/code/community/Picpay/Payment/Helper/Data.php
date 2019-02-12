@@ -12,6 +12,8 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     const PHTML_SUCCESS_PATH_ONPAGE = "picpay/success.qrcode.phtml";
     const PHTML_SUCCESS_PATH_IFRAME = "picpay/success.iframe.phtml";
 
+    const DEFAULT_QRCODE_WIDTH      = 150;
+
     /**
      * Store
      * @var bool|Mage_Core_Model_Store
@@ -110,6 +112,43 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get qrcode width info
+     *
+     * @return string
+     */
+    public function getQrcodeInfoWidth()
+    {
+        $value = $this->getStoreConfig("qrcode_info_width");
+        return $value ? $value : self::DEFAULT_QRCODE_WIDTH;
+    }
+
+    /**
+     * Get qrcode width info
+     *
+     * @return string
+     */
+    public function getQrcodeOnpageWidth()
+    {
+        $value = $this->getStoreConfig("onpage_width");
+        return $value ? $value : self::DEFAULT_QRCODE_WIDTH;
+    }
+
+    /**
+     * Get iframe style on iframe mode
+     */
+    public function getIframeStyle()
+    {
+        $value = $this->getStoreConfig("iframe_width");
+        $width = $value ? $value : self::DEFAULT_QRCODE_WIDTH;
+
+        $style = "";
+        $style .= "margin: 20px auto;";
+        $style .= "width: {$width}px;";
+        $style .= "height: {$width}px;";
+        return $style;
+    }
+
+    /**
      * Check if notification enabled
      *
      * @return string
@@ -119,9 +158,35 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->getStoreConfig("notification");
     }
 
+    /**
+     * Get API url to do request to API
+     *
+     * @param string $method
+     * @return string
+     */
     public function getApiUrl($method = "")
     {
         return $this->getStoreConfig("api_url") . $method;
+    }
+
+    /**
+     * Get flat to use or not custom form html
+     *
+     * @return string
+     */
+    public function useCustomForm()
+    {
+        return $this->getStoreConfig("use_custom_form");
+    }
+
+    /**
+     * Get custom HTML Form
+     *
+     * @return string
+     */
+    public function getCustomHtmlForm()
+    {
+        return $this->getStoreConfig("custom_form_html");
     }
 
     /**
@@ -160,21 +225,6 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $isSecure = Mage::app()->getStore()->isCurrentlySecure();
         return Mage::getUrl('picpay/notification', array("_secure" => $isSecure));
-    }
-
-    /**
-     * Get iframe style on iframe mode
-     */
-    public function getIframeStyle()
-    {
-        $width = $this->getStoreConfig("iframe_width");
-        $height = $this->getStoreConfig("iframe_height");
-
-        $style = "";
-        $style .= "margin: 20px auto;";
-        $style .= "width: {$width}px;";
-        $style .= "height: {$height}px;";
-        return $style;
     }
 
     /**
@@ -489,5 +539,12 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $order->save();
+    }
+
+    public function generateQrCode($dataText, $imageWidth = 200)
+    {
+        $svgTagId   = 'picpay-qrcode';
+        $saveToFile = false;
+        return QRcode::svg($dataText, $svgTagId, $saveToFile, QR_ECLEVEL_L, $imageWidth);
     }
 }

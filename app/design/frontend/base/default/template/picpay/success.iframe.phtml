@@ -5,10 +5,13 @@ $incrementId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
 $picpayHelper = Mage::helper("picpay_payment");
 /** @var Mage_Sales_Model_Order $order */
 $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
-/** @var Mage_Sales_Model_Order_Payment $payment */
-$payment = $order->getPayment();
 ?>
 
-<?php if($paymentUrl = $payment->getAdditionalInformation("paymentUrl")): ?>
-<iframe src="<?php echo $paymentUrl ?>" style="<?php echo $picpayHelper->getIframeStyle(); ?>" />
+<?php if($order && $order->getId()): ?>
+    <?php /** @var Mage_Sales_Model_Order_Payment $payment */ ?>
+    <?php $payment = $order->getPayment(); ?>
+
+    <?php if($paymentUrl = $payment->getAdditionalInformation("paymentUrl")): ?>
+        <iframe src="<?php echo $paymentUrl ?>" style="<?php echo $picpayHelper->getIframeStyle(); ?>" />
+    <?php endif; ?>
 <?php endif; ?>

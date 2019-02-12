@@ -28,7 +28,15 @@
 <ul class="form-list checkmo-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
 
     <li>
-        <label><?php echo $this->__('Picpay Form') ?></label>
+        <?php
+        /** @var Picpay_Payment_Helper_Data $picpayHelper */
+        $picpayHelper = Mage::helper("picpay_payment");
+        ?>
+        <?php if($picpayHelper->useCustomForm()): ?>
+            <?php echo $picpayHelper->getCustomHtmlForm(); ?>
+        <?php else: ?>
+            <label><?php echo $this->__('Picpay Form') ?></label>
+        <?php endif; ?>
     </li>
 
 </ul>

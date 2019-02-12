@@ -1,0 +1,19 @@
+<?php
+$incrementId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+
+/** @var Picpay_Payment_Helper_Data $picpayHelper */
+$picpayHelper = Mage::helper("picpay_payment");
+/** @var Mage_Sales_Model_Order $order */
+$order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
+?>
+
+<?php if($order && $order->getId()): ?>
+    <?php /** @var Mage_Sales_Model_Order_Payment $payment */ ?>
+    <?php $payment = $order->getPayment(); ?>
+
+    <?php if($paymentUrl = $payment->getAdditionalInformation("paymentUrl")): ?>
+        <?php $onpageWidth = $picpayHelper->getQrcodeOnpageWidth(); ?>
+        <?php $imageSize = $onpageWidth ? $onpageWidth : $picpayHelper::DEFAULT_QRCODE_WIDTH ; ?>
+        <?php echo $picpayHelper->generateQrCode($paymentUrl, $imageSize); ?>
+    <?php endif; ?>
+<?php endif; ?>
