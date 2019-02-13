@@ -13,6 +13,7 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     const PHTML_SUCCESS_PATH_IFRAME = "picpay/success.iframe.phtml";
 
     const DEFAULT_QRCODE_WIDTH      = 150;
+    const DEFAULT_IFRAME_HEIGHT     = 300;
 
     /**
      * Store
@@ -138,13 +139,15 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getIframeStyle()
     {
-        $value = $this->getStoreConfig("iframe_width");
-        $width = $value ? $value : self::DEFAULT_QRCODE_WIDTH;
+        $valueW = $this->getStoreConfig("iframe_width");
+        $valueH = $this->getStoreConfig("iframe_height");
+        $width = $valueW ? $valueW : self::DEFAULT_QRCODE_WIDTH;
+        $height = $valueH ? $valueH : self::DEFAULT_IFRAME_HEIGHT;
 
         $style = "";
         $style .= "margin: 20px auto;";
         $style .= "width: {$width}px;";
-        $style .= "height: {$width}px;";
+        $style .= "height: {$height}px;";
         return $style;
     }
 
