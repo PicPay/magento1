@@ -122,8 +122,8 @@
                 <customer_cpf_attribute>customer|taxvat</customer_cpf_attribute>
                 <address_telephone_attribute>telephone</address_telephone_attribute>
                 <api_url>https://appws.picpay.com/ecommerce/public</api_url>
-                <iframe_width>200</iframe_width>
-                <iframe_height>300</iframe_height>
+                <iframe_width>500</iframe_width>
+                <iframe_height>700</iframe_height>
             </picpay_standard>
         </payment>
     </default>

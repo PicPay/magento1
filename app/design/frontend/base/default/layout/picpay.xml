@@ -1,5 +1,14 @@
-<?xml version="1.0"?>   
+<?xml version="1.0"?>
 <layout version="0.1.0">
-    <default>
-    </default>
+    <picpay_payment_standard_success>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+
+        <reference name="content">
+            <block type="core/template" name="picpay.success.callback" template="picpay/callback.iframe.phtml" />
+        </reference>
+    </picpay_payment_standard_success>
 </layout>

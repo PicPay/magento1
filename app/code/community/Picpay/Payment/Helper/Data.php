@@ -203,6 +203,16 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get message to show on callback iframe
+     *
+     * @return string
+     */
+    public function getMessageIframeCallback()
+    {
+        return $this->getStoreConfig("iframe_message");
+    }
+
+    /**
      * Get fields from a given entity
      *
      * @author Gabriela D'Ávila (http://davila.blog.br)

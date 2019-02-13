@@ -43,7 +43,7 @@
                         <iframe_width translate="label">
                             <label>Iframe width on iframe Mode</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>33</sort_order>
+                            <sort_order>32</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -55,7 +55,7 @@
                         <iframe_height translate="label">
                             <label>Iframe height on iframe Mode</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>34</sort_order>
+                            <sort_order>33</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -63,6 +63,19 @@
                                 <mode>2</mode>
                             </depends>
                         </iframe_height>
+
+                        <iframe_message translate="label">
+                            <label>Iframe callback message after paid</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>34</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <mode>2</mode>
+                            </depends>
+                            <comment>Accept html</comment>
+                        </iframe_message>
 
                         <onpage_width translate="label">
                             <label>Qrcode width on Onpage Mode</label>
