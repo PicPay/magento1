@@ -66,7 +66,7 @@
 
                         <iframe_message translate="label">
                             <label>Iframe callback message after paid</label>
-                            <frontend_type>text</frontend_type>
+                            <frontend_type>textarea</frontend_type>
                             <sort_order>34</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

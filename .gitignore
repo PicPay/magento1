@@ -2,6 +2,9 @@
 # Magento Default Files    #
 #--------------------------#
 
+.git
+.DS_Store
+
 /app/etc/local.xml
 
 /media/*

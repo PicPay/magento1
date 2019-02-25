@@ -86,6 +86,17 @@
             </core_block_abstract_to_html_before>
         </events>
     </frontend>
+    <admin>
+        <routers>
+            <picpay_payment>
+                <use>admin</use>
+                <args>
+                    <module>Picpay_Payment</module>
+                    <frontName>adminhtml_picpay</frontName>
+                </args>
+            </picpay_payment>
+        </routers>
+    </admin>
     <adminhtml>
         <translate>
             <modules>

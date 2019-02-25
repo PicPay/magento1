@@ -137,7 +137,7 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
                 $block->addButton('picpay_sync',
                     array(
                         'label' => Mage::helper('picpay_payment')->__('Sync Picpay Transaction'),
-                        'onclick' => "confirmSetLocation('{$message}', '{$block->getUrl('picpay/adminhtml_index/consult?order_id='.($order->getId()))}')",
+                        'onclick' => "confirmSetLocation('{$message}', '{$block->getUrl('adminhtml_picpay/adminhtml_index/consult')}')",
                         'class' => 'go'
                     )
                 );

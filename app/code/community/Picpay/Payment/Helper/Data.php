@@ -43,6 +43,20 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get object store
+     */
+    public function getStore()
+    {
+        if($this->_store) {
+            return $this->_store;
+        }
+
+        $this->_store = Mage::app()->getStore();
+
+        return $this->_store;
+    }
+
+    /**
      * Check if picpay payment is enabled
      *
      * @return string
@@ -486,7 +500,7 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
 
         if($order->canCancel()) {
             $order->cancel();
-            return;
+            return false;
         }
 
         // not can cancel, need do a creditmemo
@@ -500,7 +514,14 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if(empty($invoices)) {
-            Mage::throwException($this->__("There isn't invoice to refund on order " . $order->getIncrementId()));
+            $message = $this->__("There isn't invoice to refund on order " . $order->getIncrementId());
+            if($this->getStore()->isAdmin()) {
+                Mage::getSingleton('adminhtml/session')->addError($message);
+                return false;
+            }
+            else {
+                Mage::throwException($message);
+            }
         }
 
         foreach ($invoices as $invoice) {
@@ -524,7 +545,7 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     protected function _processPaidOrder($order, $authorizationId)
     {
         if($order->getBaseTotalDue() <= 0) {
-            return;
+            return false;
         }
 
         $payment = $order->getPayment();
@@ -535,7 +556,14 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
             ->prepareInvoice();
 
         if (!$invoice->getTotalQty()) {
-            Mage::throwException($this->__("Cannot create an invoice without products."));
+            $message = $this->__("Cannot create an invoice without products.");
+            if($this->getStore()->isAdmin()) {
+                Mage::getSingleton('adminhtml/session')->addError($message);
+                return false;
+            }
+            else {
+                Mage::throwException($message);
+            }
         }
 
         $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);

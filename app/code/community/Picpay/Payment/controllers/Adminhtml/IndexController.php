@@ -32,8 +32,10 @@ class Picpay_Payment_Adminhtml_IndexController extends Mage_Adminhtml_Controller
             return;
         }
 
-        $helper->updateOrder($order);
+        $authorizationId = $order->getPayment()->getAdditionalInformation("authorizationId");
 
-        $this->_redirect('sales/order/view', array('order_id' => $orderId));
+        $helper->updateOrder($order, $return, $authorizationId);
+
+        $this->_redirect('adminhtml/sales_order/view', array('order_id' => $orderId));
     }
 }
