@@ -32,5 +32,7 @@
 "Payment from specific countries","Payment from specific countries"
 "Enable debug logging","Enable debug logging"
 "Sort Order","Sort Order"
+"In pixels. Just numbers.","In pixels. Just numbers."
 "Set the sequence number of this payment method in the checkout. Payment methods with a higher sort order number will be displayed lower in the list.","Set the sequence number of this payment method in the checkout. Payment methods with a higher sort order number will be displayed lower in the list."
 "Enable with want build a custom HTML form in Checkout","Enable with want build a custom HTML form in Checkout"
+"Accept html. The extension has a default message on checkout.","Accept html. The extension has a default message on checkout."
