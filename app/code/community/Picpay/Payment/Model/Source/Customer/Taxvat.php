@@ -14,7 +14,7 @@ class Picpay_Payment_Model_Source_Customer_Taxvat
         $options = array();
         $options[] = array(
             'value' => '',
-            'label' => $picpayHelper->__('Solicitar junto com os outros dados do pagamento')
+            'label' => $picpayHelper->__('Select the taxvat attribute')
         );
         foreach ($fields as $key => $value) {
             if (!is_null($value['frontend_label'])) {
