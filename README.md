@@ -8,7 +8,7 @@ The plugin integrates Magento store with payments on PicPay App.
 
 ## Requirements
 The plugin supports the Magento Community (version 1.7 and higher) and Enterprise edition (version 1.11 and higher). 
-For Magento 2.x please use the following plugin: [https://github.com/PicPay/picpay-magento2](https://github.com/PicPay/picpay-magento2)
+For Magento 2.x please use the following plugin: [https://github.com/PicPay/magento2](https://github.com/PicPay/picpay-magento2)
 
 ## Collaboration
 We commit all our new features directly into our GitHub repository.
