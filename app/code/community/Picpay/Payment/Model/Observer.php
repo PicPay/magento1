@@ -41,8 +41,10 @@ class Picpay_Payment_Model_Observer extends Varien_Event_Observer
         }
 
         try {
-            $payment->setAdditionalInformation("cancellationId", $return["return"]["cancellationId"]);
-            $payment->save();
+            if(isset($return["return"]["cancellationId"])) {
+                $payment->setAdditionalInformation("cancellationId", $return["return"]["cancellationId"]);
+                $payment->save();
+            }
             Mage::getSingleton('core/session')->addSuccess($helper->__('Order canceled with success at Picpay.'));
         }
         catch (Exception $e) {

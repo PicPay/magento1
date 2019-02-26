@@ -23,7 +23,8 @@ $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
         </p>
 
         <script type="text/javascript">
-            <?php $transactionCode = end(explode("/checkout/", $paymentUrl)); ?>
+            <?php $explodedUrl = explode("/checkout/", $paymentUrl); ?>
+            <?php $transactionCode = end($explodedUrl); ?>
             var checkUrl = "https://appws.picpay.com/ecommerce/checkout/qr-code?order=<?php echo $transactionCode; ?>&url=https%3A%2F%2Fapp.picpay.com%2Fcheckout%2F<?php echo $transactionCode; ?>";
 
             var getJSON = function(url, callback) {
@@ -41,16 +42,16 @@ $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
                 xhr.send();
             };
 
-            setTimeout(function () {
+            setInterval(function () {
                 getJSON(checkUrl, function(err, data) {
                     if (err !== null) {
                         console.log(err);
                     } else {
                         console.log(data);
                         if( typeof data.status != "undefined"
-                            && typeof data.valid != "undefined"
-                            && data.valid == true
+                            && typeof data.storeOrderId != "undefined"
                             && data.status == "paid"
+                            && data.storeOrderId == "<?php echo $order->getIncrementId(); ?>"
                         ) {
                             window.location.href = '<?php echo Mage::getUrl("sales/order/view", array('order_id' => $order->getId(), '_secure' => $isSecure)); ?>';
                         }
