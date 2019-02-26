@@ -20,7 +20,7 @@
 "API Picpay Token","API Picpay Token"
 "API Seller Token","API Seller Token"
 "Order status: order creation","Order status: order creation"
-"Status given to newly created orders before payment result confirmation via server notifications from Adyen.","Status given to newly created orders before payment result confirmation via server notifications from Adyen."
+"Status given to newly created orders before payment result confirmation via server notifications.","Status given to newly created orders before payment result confirmation via server notifications."
 "Use custom form","Use custom form"
 "Custom html form","Custom html form"
 "Customer document attribute","Customer document attribute"
