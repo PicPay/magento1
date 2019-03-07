@@ -9,6 +9,7 @@ app/locale/pt_BR/Picpay_Payment.csv            app/locale/pt_BR/Picpay_Payment.c
 # app/design
 app/design/frontend/base/default/layout/picpay.xml            app/design/frontend/base/default/layout/picpay.xml
 app/design/frontend/base/default/template/picpay/success.qrcode.phtml            app/design/frontend/base/default/template/picpay/success.qrcode.phtml
+app/design/frontend/base/default/template/picpay/callback.iframe.phtml            app/design/frontend/base/default/template/picpay/callback.iframe.phtml
 app/design/frontend/base/default/template/picpay/success.iframe.phtml            app/design/frontend/base/default/template/picpay/success.iframe.phtml
 app/design/frontend/base/default/template/picpay/form/picpay.phtml            app/design/frontend/base/default/template/picpay/form/picpay.phtml
 app/design/frontend/base/default/template/picpay/info.phtml            app/design/frontend/base/default/template/picpay/info.phtml
@@ -429,3 +430,5 @@ lib/phpqrcode/qrbitstream.php            lib/phpqrcode/qrbitstream.php
 lib/phpqrcode/qrrscode.php            lib/phpqrcode/qrrscode.php
 lib/phpqrcode/qrconst.php            lib/phpqrcode/qrconst.php
 lib/phpqrcode/qrsvg.php            lib/phpqrcode/qrsvg.php
+# skin
+skin/frontend/base/default/images/picpay/picpay-logo.png            skin/frontend/base/default/images/picpay/picpay-logo.png
