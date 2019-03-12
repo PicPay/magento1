@@ -11,19 +11,23 @@ The plugin supports the Magento Community (version 1.7 and higher) and Enterpris
 We commit all our new features directly into our GitHub repository.
 But you can also request or suggest new features or code changes yourself!
 
+## Support
+Open new issue [https://github.com/PicPay/magento1/issues](https://github.com/PicPay/magento1/issues).
+
 ## Installation
-Option A: download plugin
+#### Option A: download plugin
 [https://cdn.picpay.com/ecommerce/Picpay_Payment-1.0.0.tgz](https://cdn.picpay.com/ecommerce/Picpay_Payment-1.0.0.tgz)
 
-Option B: composer
+#### Option B: composer
 Copy the folders to your main Magento environment or use composer:
 ```
 composer require picpay/magento1
 ```
 
 ## API Documentation
-[PicPay E-Commerce registration page](https://ecommerce.picpay.com/)
-[PicPay API documentation](https://ecommerce.picpay.com/doc/)
+##### - [PicPay E-Commerce registration page](https://ecommerce.picpay.com/)
+
+##### - [PicPay E-Commerce public API documentation](https://ecommerce.picpay.com/doc/)
 
 ## Caching / Varnish configuration
 In case you are using a caching layer such as Varnish, please exclude the following URL pattern from being cached
