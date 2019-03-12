@@ -22,7 +22,7 @@ composer require picpay/magento1
 ```
 
 ## API Documentation
-[PicPay E-Commerce registration page])(https://ecommerce.picpay.com/)
+[PicPay E-Commerce registration page](https://ecommerce.picpay.com/)
 [PicPay API documentation](https://ecommerce.picpay.com/doc/)
 
 ## Caching / Varnish configuration
