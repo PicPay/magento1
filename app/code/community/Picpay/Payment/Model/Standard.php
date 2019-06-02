@@ -133,6 +133,10 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
             'buyer'         => $this->_getHelper()->getBuyer($order)
         );
 
+        if($expiresAt = $this->_getHelper()->getExpiresAt($order)) {
+            $data['expiresAt'] = $expiresAt;
+        }
+
         $result = $this->_getHelper()->requestApi(
             $this->_getHelper()->getApiUrl("/payments"),
             $data
@@ -206,6 +210,7 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
         try {
             $payment->setAdditionalInformation("paymentUrl", $return["return"]["paymentUrl"]);
+            $payment->setAdditionalInformation("qrcode", $return["return"]["qrcode"]);
             $payment->save();
             Mage::getSingleton('core/session')->setPicpayPaymentUrl($return["return"]["paymentUrl"]);
         }

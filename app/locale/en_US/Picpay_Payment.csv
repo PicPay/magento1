@@ -36,3 +36,5 @@
 "Set the sequence number of this payment method in the checkout. Payment methods with a higher sort order number will be displayed lower in the list.","Set the sequence number of this payment method in the checkout. Payment methods with a higher sort order number will be displayed lower in the list."
 "Enable with want build a custom HTML form in Checkout","Enable with want build a custom HTML form in Checkout"
 "Accept html. The extension has a default message on checkout.","Accept html. The extension has a default message on checkout."
+"Days to Picpay cancel orders without payment completed","Days to Picpay cancel orders without payment completed"
+"Days to expires orders","Days to expires orders"

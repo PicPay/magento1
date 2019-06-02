@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Picpay_Payment>
-            <version>1.0.0</version>
+            <version>0.1.0</version>
         </Picpay_Payment>
     </modules>
     <frontend>
@@ -62,15 +62,15 @@
                 </observers>
             </order_cancel_after>
 
-            <controller_front_init_before>
-                <observers>
-                    <picpay_payment_controller_front_init_before>
-                        <type>singleton</type>
-                        <class>picpay_payment/observer</class>
-                        <method>controllerFrontInitBefore</method>
-                    </picpay_payment_controller_front_init_before>
-                </observers>
-            </controller_front_init_before>
+            <!--<controller_front_init_before>-->
+                <!--<observers>-->
+                    <!--<picpay_payment_controller_front_init_before>-->
+                        <!--<type>singleton</type>-->
+                        <!--<class>picpay_payment/observer</class>-->
+                        <!--<method>controllerFrontInitBefore</method>-->
+                    <!--</picpay_payment_controller_front_init_before>-->
+                <!--</observers>-->
+            <!--</controller_front_init_before>-->
         </events>
     </global>
     <frontend>

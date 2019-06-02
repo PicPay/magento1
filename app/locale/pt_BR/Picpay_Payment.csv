@@ -36,3 +36,5 @@
 "Set the sequence number of this payment method in the checkout. Payment methods with a higher sort order number will be displayed lower in the list.","Para ordenação das formas de pagamento na seção de pagamento do checkout"
 "Enable with want build a custom HTML form in Checkout","Habilite caso queira utilizar HTML personalizado no form de pagamento no checkout"
 "Accept html. The extension has a default message on checkout.","Accept html. Já existe uma mensagem padrão caso não queria fazer algo personalizado."
+"Quantidade de dias para que o Picpay cancele os pedidos sem pagamentos automaticamente.","Days to Picpay cancel orders without payment completed"
+"Days to expires orders","Dias para cancelamento automático"

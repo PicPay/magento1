@@ -179,7 +179,7 @@
                             <comment>If your store use a customer ID custom ttribute, select here.</comment>
                         </customer_cpf_attribute>
 
-                        <address_telephone_attribute>
+                        <address_telephone_attribute translate="label comment">
                             <label>Customer telephone attribute</label>
                             <frontend_type>select</frontend_type>
                             <source_model>picpay_payment/source_customer_address</source_model>
@@ -199,6 +199,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </notification>
+
+                        <days_to_expires translate="label comment">
+                            <label>Days to expires orders</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Days to Picpay cancel orders without payment completed</comment>
+                        </days_to_expires>
 
                         <allowspecific translate="label">
                             <label>Payment from applicable countries</label>
