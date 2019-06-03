@@ -27,6 +27,19 @@ class Picpay_Payment_Block_Info extends Mage_Payment_Block_Info
 		return $this->_order;
     }
 
+    public function getQrcodeSource()
+    {
+        $order = $this->getOrder();
+        if(is_null($order)) {
+            return "";
+        }
+
+        /** @var Mage_Sales_Model_Order_Payment $payment */
+        $payment = $order->getPayment();
+
+        return $payment->getAdditionalInformation("qrcode");
+    }
+
     public function getPaymentUrl()
     {
         $order = $this->getOrder();
@@ -68,7 +81,7 @@ class Picpay_Payment_Block_Info extends Mage_Payment_Block_Info
 
     public function getQrcode()
     {
-        if($paymentUrl = $this->getPaymentUrl()) {
+        if($qrcodeSource = $this->getQrcodeSource()) {
             /** @var Picpay_Payment_Helper_Data $picpayHelper */
             $picpayHelper = Mage::helper("picpay_payment");
 
@@ -77,7 +90,7 @@ class Picpay_Payment_Block_Info extends Mage_Payment_Block_Info
                 : $picpayHelper::DEFAULT_QRCODE_WIDTH
             ;
 
-            return $picpayHelper->generateQrCode($paymentUrl, $imageSize);
+            return $picpayHelper->generateQrCode($qrcodeSource, $imageSize);
         }
     }
 }

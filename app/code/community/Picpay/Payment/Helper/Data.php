@@ -390,6 +390,27 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get expire date for a order
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return false|string
+     */
+    public function getExpiresAt($order) {
+        $createdAt = $order->getCreatedAtStoreDate();
+        $createdAtTime = \strtotime($createdAt);
+
+        $days = (int) $this->getStoreConfig("days_to_expires");
+        if(is_numeric($days) && (int) $days > 0) {
+            $createdAtTime += ($days * 86400);
+        }
+        else {
+            return false;
+        }
+
+        return \date("c", $createdAtTime);
+    }
+
+    /**
      * Get telephone attribute code
      *
      * @return string
@@ -472,6 +493,11 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     public function updateOrder($order, $consult, $authorizationId)
     {
         $status = $consult["return"]["status"];
+
+        if(!$authorizationId && isset($consult["return"]["authorizationId"])) {
+            $authorizationId = $consult["return"]["authorizationId"];
+        }
+
         switch ($status) {
             case "expired":
             case "refunded":
@@ -544,13 +570,15 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _processPaidOrder($order, $authorizationId)
     {
+        $payment = $order->getPayment();
+        if(!$payment->getAdditionalInformation("authorizationId")) {
+            $payment->setAdditionalInformation("authorizationId", $authorizationId);
+            $payment->save();
+        }
+
         if($order->getBaseTotalDue() <= 0) {
             return false;
         }
-
-        $payment = $order->getPayment();
-        $payment->setAdditionalInformation("authorizationId", $authorizationId);
-        $payment->save();
 
         $invoice = Mage::getModel('sales/service_order', $order)
             ->prepareInvoice();
@@ -592,10 +620,11 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         $order->save();
     }
 
-    public function generateQrCode($dataText, $imageWidth = 200)
+    public function generateQrCode($dataText, $imageWidth = 200, $style = "")
     {
-        $svgTagId   = 'picpay-qrcode';
-        $saveToFile = false;
-        return QRcode::svg($dataText, $svgTagId, $saveToFile, QR_ECLEVEL_L, $imageWidth);
+        if(is_array($dataText)) {
+            $dataText = $dataText['base64'];
+        }
+        return '<img src="'.$dataText.'" width="'.$imageWidth.'" style="'.$style.'"/>';
     }
 }
