@@ -396,7 +396,7 @@ class Picpay_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      * @return false|string
      */
     public function getExpiresAt($order) {
-        $createdAt = $order->getCreatedAtStoreDate();
+        $createdAt = $order->getCreatedAt();
         $createdAtTime = \strtotime($createdAt);
 
         $days = (int) $this->getStoreConfig("days_to_expires");

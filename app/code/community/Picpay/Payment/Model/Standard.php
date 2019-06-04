@@ -125,12 +125,18 @@ class Picpay_Payment_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function paymentRequest($order)
     {
+        $version = "";
+        if((string) Mage::getConfig()->getNode()->modules->Picpay_Payment->version) {
+            $version = " - v".(string) Mage::getConfig()->getNode()->modules->Picpay_Payment->version;
+        }
+
         $data = array(
             'referenceId'   => $order->getIncrementId(),
             'callbackUrl'   => $this->_getHelper()->getCallbackUrl(),
             'returnUrl'     => $this->_getHelper()->getReturnUrl(),
             'value'         => round($order->getGrandTotal(), 2),
-            'buyer'         => $this->_getHelper()->getBuyer($order)
+            'buyer'         => $this->_getHelper()->getBuyer($order),
+            'plugin'        => "Magento 1". $version
         );
 
         if($expiresAt = $this->_getHelper()->getExpiresAt($order)) {
